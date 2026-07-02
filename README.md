@@ -65,6 +65,26 @@ context re-read aren't free, and routing variance is real. The bigger and
 more frequent your spawns, the more the arbitrage dominates: Haiku is 5×
 cheaper than Opus and 10× cheaper than Fable per token.
 
+Same experiment with a **Fable 5 driver** (subagent pinned to `fable` = the
+inherit behavior on Anthropic's most expensive model):
+
+| Run | Subagent on Fable (no bouncer) | Bounced | Rerouted to |
+|---|---|---|---|
+| 1 | $0.530 | $0.826 | sonnet |
+| 2 | **$4.360** | $0.520 | haiku |
+| 3 | $0.557 | $0.683 | sonnet |
+| **avg** | **$1.816** | **$0.676 (−63%)** | |
+
+Run 2 is the finding: the pinned Fable subagent chose to think hard on a
+trivial investigation — **$4.36, eight times the median run**. The bounced
+arm structurally cannot spike (a cheap model is a cost ceiling); its worst
+run was $0.826. Median small-task runs were roughly break-even — the deny
+turn plus a cold-cache re-read on a different model costs real tokens — so
+on expensive session models the bouncer is less per-run trimming and more
+**tail insurance**: unrouted spawns carry a fat tail that grows with the
+session model's price and thinking appetite. All six runs answered
+correctly.
+
 Reproduce (bills your own subscription):
 
 ```bash
