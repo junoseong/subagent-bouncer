@@ -1,5 +1,6 @@
 {
   "name": "subagent-bouncer",
+  "description": "Cost-control hooks for Claude Code — stop subagents from billing at your session model's rate.",
   "owner": {
     "name": "Juno Seong"
   },
