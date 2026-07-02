@@ -1,0 +1,13 @@
+{
+  "name": "subagent-bouncer",
+  "owner": {
+    "name": "Juno Seong"
+  },
+  "plugins": [
+    {
+      "name": "subagent-bouncer",
+      "source": "./",
+      "description": "Stops Claude Code subagents from silently billing at your session model's rate — denies unrouted Agent spawns; the deny reason makes the session model re-issue on the cheapest capable tier."
+    }
+  ]
+}
