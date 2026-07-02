@@ -44,15 +44,36 @@ lever, and by default nothing pulls it.
 
 ## Measured
 
-Live Claude Code session, same investigation task:
+Controlled experiment: six headless Claude Code sessions (`claude -p
+--output-format json`), identical investigation task on a small repo, Opus
+driver in both arms. Arm A pins the subagent to `opus` — exactly what
+inheriting the session model does without the bouncer. Arm B spawns
+unrouted, so the bouncer denies and the driver reroutes. Costs are what the
+CLI itself reported from real per-model token usage:
 
-| | Tokens | Tool calls |
-|---|---|---|
-| No hook — spawn inherits session model | 25.3k | 3 |
-| Bouncer — denied once, re-spawned on a cheap tier | 11.4k | 1 |
+| Run | Subagent on Opus (no bouncer) | Bounced | Rerouted to |
+|---|---|---|---|
+| 1 | $0.387 | $0.261 | haiku |
+| 2 | $0.394 | $0.435 | sonnet |
+| 3 | $0.375 | $0.246 | haiku |
+| **avg** | **$0.385** | **$0.314 (−19%)** | |
 
-The deny feedback didn't just move the spawn to a cheaper model — the
-session model also wrote a tighter prompt on the retry.
+All six runs returned the correct answer. When the driver picked Haiku
+(2 of 3), the bounced run cost **35% less**. The run it picked Sonnet cost
+10% *more* than unbounced — the deny retry plus the subagent's fresh
+context re-read aren't free, and routing variance is real. The bigger and
+more frequent your spawns, the more the arbitrage dominates: Haiku is 5×
+cheaper than Opus and 10× cheaper than Fable per token.
+
+Reproduce (bills your own subscription):
+
+```bash
+cd <some-repo> && bash benchmarks/run_bench.sh
+```
+
+Earlier single observation, different task, same shape: unhooked spawn
+25.3k tokens / 3 tool calls vs bounced 11.4k / 1 — the deny feedback also
+made the session model write a tighter prompt on the retry.
 
 ## How it works
 
