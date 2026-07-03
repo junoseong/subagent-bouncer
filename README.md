@@ -85,10 +85,25 @@ on expensive session models the bouncer is less per-run trimming and more
 session model's price and thinking appetite. All six runs answered
 correctly.
 
+And the multi-agent shape, where the arbitrage actually lives: one Fable
+session fanning out **five parallel subagents** in a single message
+(five-question repo investigation, both arms answered correctly):
+
+| | Spawns inherit Fable | Bounced |
+|---|---|---|
+| One 5-subagent fan-out | **$6.74** | **$3.23 (−52%)** |
+
+That's $3.51 saved on *one message*. Multi-agent sessions fan out like this
+repeatedly — every round pays the same premium if spawns inherit, and the
+per-spawn tail risk above compounds with every extra spawn in flight. The
+bounced arm routed the five spawns to a haiku/sonnet mix and kept Fable for
+synthesis only.
+
 Reproduce (bills your own subscription):
 
 ```bash
-cd <some-repo> && bash benchmarks/run_bench.sh
+cd <some-repo> && bash benchmarks/run_bench.sh        # single-spawn, 3 runs/arm
+cd <some-repo> && bash benchmarks/run_bench_fanout.sh # 5-subagent fan-out
 ```
 
 Earlier single observation, different task, same shape: unhooked spawn
