@@ -109,6 +109,13 @@ before installing, it's shorter than this README:
 4. The session model reads the reason and re-issues the spawn with the
    cheapest capable tier. One retry, self-correcting, no config.
 
+The deny reason also tells the session model to include what it already
+knows — file paths, key snippets, prior findings — in the re-issued prompt.
+Prompt caches don't transfer between models, so a rerouted subagent starts
+cold; pre-chewing the context is what shrinks that penalty (observed in one
+measurement: 25.3k tokens unhooked vs 11.4k bounced, because the retry
+prompt came back tighter).
+
 **Why deny instead of silently rewriting the call?** A hook could inject
 `model: haiku` itself — but a static rule can't judge task difficulty, and
 misrouting hard work to Haiku costs more in retries than it saves. Your

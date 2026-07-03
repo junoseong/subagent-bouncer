@@ -1,6 +1,6 @@
 {
   "name": "subagent-bouncer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Stops Claude Code subagents from silently billing at your session model's rate — denies unrouted Agent spawns; the deny reason makes the session model re-issue on the cheapest capable tier.",
   "author": {
     "name": "Juno Seong"

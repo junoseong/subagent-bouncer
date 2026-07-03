@@ -38,6 +38,8 @@ def test_unrouted_agent_spawn_is_denied():
     assert payload["permissionDecision"] == "deny"
     assert "haiku" in payload["permissionDecisionReason"]
     assert "model" in payload["permissionDecisionReason"]
+    # deny reason must also push the driver to pre-chew context on retry
+    assert "file paths" in payload["permissionDecisionReason"]
 
 
 def test_routed_agent_spawn_passes():

@@ -16,7 +16,9 @@ REASON = (
     "mechanical renames/edits; sonnet: single-file builds, standard reviews, "
     "routine exploration; opus: multi-file implementation, hard debugging, "
     "adversarial verification. Reserve the session model for judgment-critical "
-    "synthesis only. Pick the cheapest capable tier."
+    "synthesis only. Pick the cheapest capable tier. In the re-issued prompt, "
+    "include what you already know — relevant file paths, key snippets, prior "
+    "findings — so the subagent starts warm instead of re-exploring from cold."
 )
 
 
