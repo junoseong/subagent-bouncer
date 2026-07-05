@@ -99,7 +99,37 @@ per-spawn tail risk above compounds with every extra spawn in flight. The
 bounced arm routed the five spawns to a haiku/sonnet mix and kept Fable for
 synthesis only.
 
-Reproduce (bills your own subscription):
+### Real usage, not benchmarks
+
+I mined my own session logs (~3 months, list-price token value):
+
+- **Before the hook, 93.6% of my subagent spend ran on opus/fable** —
+  $1,625 of it — because every unrouted spawn inherited the session model.
+  The day the hook went live that share dropped to **18.1%**, sonnet-dominant.
+- **First 2.5 days with the hook: subagents cost $304.** Repriced at the
+  session model they would have inherited (Fable, in every one of those
+  sessions): **$883**. The hook kept $579 in 2.5 days.
+- Single best night: one overnight multi-agent run spent **$225** on sonnet
+  spawns. Inherited on its Fable driver: **$750**.
+- Timing note: my before-era baseline was mostly Opus ($5/$25 per MTok).
+  The week Fable ($10/$50) became my daily driver, the inherit tax
+  doubled — unrouted spawns get *more* expensive every model generation.
+
+Honest labels: "repriced" means same tokens, inherited meter — conservative,
+since pinned expensive spawns measurably think *longer* on the same task
+(see the $4.36 grep above), not shorter. List-price value, not an invoice —
+on a subscription plan this burns limits, not dollars. And post-hook spawns
+that explicitly chose fable/opus are counted at full price: the hook forces
+a choice, it doesn't forbid expensive models.
+
+Measure your own (read-only, stdlib, nothing leaves your machine):
+
+```bash
+python3 benchmarks/scan_your_logs.py                     # spend by tier + counterfactual
+python3 benchmarks/scan_your_logs.py --cutoff 2026-07-02 # before/after a date
+```
+
+Reproduce the controlled benchmarks (bills your own subscription):
 
 ```bash
 cd <some-repo> && bash benchmarks/run_bench.sh        # single-spawn, 3 runs/arm
