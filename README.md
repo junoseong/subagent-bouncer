@@ -7,10 +7,10 @@
 
 [The problem](#the-problem) • [Measured](#measured) • [How it works](#how-it-works) • [Install](#install) • [FAQ](#faq)
 
-A 40-line PreToolUse hook that denies any subagent spawn missing an explicit
-`model` param. The deny reason carries a routing table, so your session model
-immediately re-issues the spawn on the cheapest capable tier. Self-correcting,
-one file, zero dependencies.
+A one-file, zero-dependency PreToolUse hook that denies any unrouted
+subagent spawn — `Agent` tool calls and workflow `agent()` spawns alike.
+The deny reason carries a routing table, so your session model immediately
+re-issues the spawn on the cheapest capable tier. Self-correcting.
 
 ```
 Session (Opus/Fable)                 subagent-bouncer
@@ -153,6 +153,12 @@ before installing, it's shorter than this README:
    debugging — session model reserved for judgment-critical synthesis.
 4. The session model reads the reason and re-issues the spawn with the
    cheapest capable tier. One retry, self-correcting, no config.
+5. `Workflow` calls get the same treatment: the hook lints the script for
+   `agent()` calls that provably omit `opts.model` — a missing options
+   argument, or an options literal without `model:` — and denies before the
+   workflow runs. Opts passed as a variable, saved workflow names, and
+   anything unparseable pass untouched (fail open — never block a working
+   script).
 
 The deny reason also tells the session model to include what it already
 knows — file paths, key snippets, prior findings — in the re-issued prompt.
@@ -189,7 +195,7 @@ then add to `~/.claude/settings.json`:
 "hooks": {
   "PreToolUse": [
     {
-      "matcher": "Agent",
+      "matcher": "Agent|Workflow",
       "hooks": [
         {
           "type": "command",
@@ -210,9 +216,12 @@ delete the file + settings block).
 unrouted ones cost exactly one retry. Malformed input, other tools,
 anything unexpected — the hook stays silent and blocks nothing.
 
-**Does it cover `Workflow` orchestration agents?** No — workflow `agent()`
-calls aren't matchable by PreToolUse hooks. Set `opts.model` in workflow
-scripts manually.
+**Does it cover `Workflow` orchestration agents?** Yes (v0.2.0+). Workflow
+`agent()` calls aren't hookable individually, but the `Workflow` tool call
+carries the whole script — the hook lints it and denies if any `agent()`
+call provably omits `opts.model`. Fail-open rules: opts in a variable,
+saved workflow names, and unparseable scripts pass. Workflows spawn agents
+by the dozen, so this is where unrouted inheritance costs the most.
 
 **What if I *want* the session model for a spawn?** Say so explicitly:
 `model: opus` (or your session's tier) passes the bouncer. The point is
