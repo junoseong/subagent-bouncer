@@ -18,8 +18,9 @@ REASON = (
     "chosen by task difficulty — haiku: greps, 'where is X', file maps, "
     "mechanical renames/edits; sonnet: single-file builds, standard reviews, "
     "routine exploration; opus: multi-file implementation, hard debugging, "
-    "adversarial verification. Reserve the session model for judgment-critical "
-    "synthesis only. Pick the cheapest capable tier. In the re-issued prompt, "
+    "adversarial verification; fable: judgment-critical synthesis and the "
+    "hardest cross-cutting reasoning, sparingly. Pick the cheapest capable "
+    "tier. In the re-issued prompt, "
     "include what you already know — relevant file paths, key snippets, prior "
     "findings — so the subagent starts warm instead of re-exploring from cold."
 )
@@ -29,8 +30,9 @@ WORKFLOW_REASON = (
     "opts.model chosen by task difficulty — haiku: greps, 'where is X', file "
     "maps, mechanical renames/edits; sonnet: single-file builds, standard "
     "reviews, routine exploration; opus: multi-file implementation, hard "
-    "debugging, adversarial verification. Unrouted spawns inherit the session "
-    "model and bill at its rate. Re-issue this Workflow call with model set "
+    "debugging, adversarial verification; fable: judgment-critical synthesis "
+    "and the hardest cross-cutting reasoning, sparingly. Unrouted spawns "
+    "inherit the session model and bill at its rate. Re-issue this Workflow call with model set "
     "on each agent() spawn, and include known context in each prompt so "
     "agents start warm."
 )

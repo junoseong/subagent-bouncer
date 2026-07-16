@@ -150,7 +150,8 @@ before installing, it's shorter than this README:
 3. No `model`? Deny, with a reason that doubles as a routing table:
    *haiku* for greps/locates/mechanical edits, *sonnet* for single-file work
    and routine reviews, *opus* for multi-file implementation and hard
-   debugging — session model reserved for judgment-critical synthesis.
+   debugging, *fable* — sparingly — for judgment-critical synthesis and the
+   hardest cross-cutting reasoning.
 4. The session model reads the reason and re-issues the spawn with the
    cheapest capable tier. One retry, self-correcting, no config.
 5. `Workflow` calls get the same treatment: the hook lints the script for
